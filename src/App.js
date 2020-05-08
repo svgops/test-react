@@ -23,8 +23,11 @@ export default function App() {
   // canvas is different from other DOM elements
   // that is the reason you need a ref to the canvas
   // for later update
-
   const canvasRef = React.useRef(null);
+  // another hook for the states
+  const [locations, setLocations] = React.useState([]);
+
+  console.log(locations);
 
   return (
     <div className="App">
@@ -36,7 +39,10 @@ export default function App() {
           const canvas = canvasRef.current;
           const ctx = canvas.getContext("2d");
           // implement draw on ctx here
-          draw(ctx, { x: e.clientX, y: e.clientY });
+          const newLocation = { x: e.clientX, y: e.clientY };
+          setLocations([...locations, newLocation]);
+          //draw(ctx, { x: e.clientX, y: e.clientY });
+          draw(ctx, newLocation);
         }}
       />
     </div>
