@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css";
+//import "./styles.css";
 
 // check this blog
 // https://blog.koenvangilst.nl/react-hooks-with-canvas/
@@ -41,8 +41,16 @@ export default function App() {
   });
   // draw is called inside the useEffect() for each click
 
-  // console.log(locations);
+  console.log(locations);
+  /*
+  function handleClear() {
+    setLocations([]);
+  }
 
+  function handleUndo() {
+    setLocations(locations.slice(0, -1));
+  }
+*/
   return (
     <div className="App">
       <canvas
@@ -51,6 +59,7 @@ export default function App() {
         height={window.innerHeight}
         onClick={e => {
           const newLocation = { x: e.clientX, y: e.clientY };
+          alert(e.clientX);
           setLocations([...locations, newLocation]);
         }}
       />
