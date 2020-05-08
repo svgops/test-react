@@ -34,24 +34,40 @@ function usePersistentState(init) {
   return [value, setValue];
 }
 
+// second custom hook, now with canvas
+// our second custom hook: a composition of the first custom hook and React's useEffect + useRef
+function usePersistentCanvas() {
+  const [locations, setLocations] = usePersistentState([]);
+  const canvasRef = React.useRef(null);
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    locations.forEach(location => draw(ctx, location));
+  });
+  return [locations, setLocations, canvasRef];
+}
+
 export default function App() {
   /*
   const [locations, setLocations] = React.useState(
     JSON.parse(localStorage.getItem("draw-app")) || []
   );
   */
-  const [locations, setLocations] = usePersistentState([]);
+  //const [locations, setLocations] = usePersistentState([]);
+  const [locations, setLocations, canvasRef] = usePersistentCanvas();
+
   // create the react hook
   // canvas is different from other DOM elements
   // that is the reason you need a ref to the canvas
   // for later update
-  const canvasRef = React.useRef(null);
+  //const canvasRef = React.useRef(null);
   // another hook for the states
   //const [locations, setLocations] = React.useState([]);
 
   // add the third hook
   // drawing on the canvas is a side-efect from the states
-
+  /*
   React.useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -60,12 +76,19 @@ export default function App() {
     // enumerate every location of click, draw a hook for each
     locations.forEach(location => draw(ctx, location));
   });
+  */
   // draw is called inside the useEffect() for each click
   /*
   React.useEffect(() => {
     localStorage.setItem("draw-app", JSON.stringify(locations));
   });
 */
+
+  function handleCanvasClick(e) {
+    const newLocation = { x: e.clientX, y: e.clientY };
+    setLocations([...locations, newLocation]);
+  }
+
   function handleClear() {
     setLocations([]);
   }
@@ -82,10 +105,7 @@ export default function App() {
         ref={canvasRef}
         width={window.innerWidth}
         height={window.innerHeight}
-        onClick={e => {
-          const newLocation = { x: e.clientX, y: e.clientY };
-          setLocations([...locations, newLocation]);
-        }}
+        onClick={handleCanvasClick}
       />
     </>
   );
