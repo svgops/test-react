@@ -4,8 +4,15 @@ import "./styles.css";
 export default function App() {
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
+      <h1>Click anywhere below the text</h1>
+      <h2>It is a canvas for you</h2>
+      <canvas
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onClick={e => {
+          alert(e.clientX);
+        }}
+      />
     </div>
   );
 }
