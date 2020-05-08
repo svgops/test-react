@@ -41,7 +41,6 @@ export default function App() {
   });
   // draw is called inside the useEffect() for each click
 
-  console.log(locations);
   /*
   function handleClear() {
     setLocations([]);
@@ -59,7 +58,6 @@ export default function App() {
         height={window.innerHeight}
         onClick={e => {
           const newLocation = { x: e.clientX, y: e.clientY };
-          alert(e.clientX);
           setLocations([...locations, newLocation]);
         }}
       />
