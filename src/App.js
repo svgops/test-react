@@ -1,5 +1,5 @@
 import React from "react";
-//import "./styles.css"
+import "./styles.css";
 
 // check this blog
 // https://blog.koenvangilst.nl/react-hooks-with-canvas/
@@ -24,13 +24,17 @@ function draw(ctx, location) {
 }
 
 export default function App() {
+  const [locations, setLocations] = React.useState(
+    JSON.parse(localStorage.getItem("draw-app")) || []
+  );
+
   // create the react hook
   // canvas is different from other DOM elements
   // that is the reason you need a ref to the canvas
   // for later update
   const canvasRef = React.useRef(null);
   // another hook for the states
-  const [locations, setLocations] = React.useState([]);
+  //const [locations, setLocations] = React.useState([]);
 
   // add the third hook
   // drawing on the canvas is a side-efect from the states
@@ -44,6 +48,10 @@ export default function App() {
     locations.forEach(location => draw(ctx, location));
   });
   // draw is called inside the useEffect() for each click
+
+  React.useEffect(() => {
+    localStorage.setItem("draw-app", JSON.stringify(locations));
+  });
 
   function handleClear() {
     setLocations([]);
